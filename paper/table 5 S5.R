@@ -106,12 +106,16 @@ ordinal_cor_mat <- ordinal_cor_output$rho
 x = indicator_df %>% 
   dplyr::select(c_items,d_items,p_items) %>% 
   dplyr::mutate_all(~as.numeric(.)) %>% as.matrix()
-
+x[is.na(x)] <- 0
 # PCA
 ordinal_pca <- prcomp(ordinal_cor_mat)
 l = ordinal_pca$rotation[,]
 f = x %*% l
 indicator_df[,c("ord_pca", paste0("ord_pca_",c(2,3)))] <- f[,1:3]
+
+psych_pca <- psych::principal(r = ordinal_cor_mat, nfactors = 3, rotate = "none") # works if you actually give it the matrix
+psych_pca$scores <- psych::factor.scores(x,psych_pca)   
+# psych::biplot.psych(psych_pca)
 
 # Factor Analysis
 rotation_method = "varimax"
@@ -125,5 +129,11 @@ f = x %*% l
 
 indicator_df[,c("ord_fa")] <- f
 
+ordinal_efa$scores <- psych::factor.scores(x,ordinal_efa)   
+# psych::biplot.psych(psych_pca)
+
+
 r7 = cor(method = "spearman",indicator_df$ord_fa,pca05_df$pcall,use = "pairwise.complete.obs")
 r8 = cor(method = "spearman",indicator_df$ord_pca,pca05_df$pcall,use = "pairwise.complete.obs")
+r7a = cor(ordinal_efa$scores$scores[,1],pca05_df$pcall,method = "spearman",use="pairwise.complete.obs")
+r8a = cor(psych_pca$scores$scores[,1],pca05_df$pcall,method = "spearman",use = "pairwise.complete.obs")

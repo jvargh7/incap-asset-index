@@ -70,6 +70,13 @@ r1 = paste0(
   sprintf(abs(cor(temp_pca_df$pca_pc,temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
 )
 
+psych_pca <- psych::principal(r = mixedcor_mat, nfactors = 3, rotate = "none") # works if you actually give it the matrix
+psych_pca$scores <- psych::factor.scores(x,psych_pca)   #find the scores from the response data set with the p3 pca solution
+# psych::biplot.psych(psych_pca)
+r1a <- paste0(
+  sprintf(abs(cor(psych_pca$scores$scores[,1],temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
+)
+
 # Factor Analysis + Pearson  ------------
 rotation_method = "varimax"
 fm_method = "minres"
@@ -116,7 +123,11 @@ r3 = paste0(
   sprintf(abs(cor(temp_pca_df$fa_pc,temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
 )
 
-
+output_wealth_efa$scores <- psych::factor.scores(x,output_wealth_efa)   #find the scores from the response data set with the p3 pca solution
+# psych::biplot.psych(psych_pca)
+r3a <- paste0(
+  sprintf(abs(cor(output_wealth_efa$scores$scores[,1],temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
+)
 
 
 
