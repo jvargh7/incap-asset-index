@@ -89,18 +89,16 @@ pearsoncor_output <- temp_pca_df %>%
   #               -pcall,-pcall_2,-pcall_3) %>%
   cor(.,use="pairwise.complete.obs")
 
-output_wealth_efa <- psych::fa(pearsoncor_output,
+output_wealth_efa2 <- psych::fa(x,
                                n.obs = nrow(temp_pca_df),
                                nfactors = nfactors,fm=fm_method,rotate=rotation_method)
-l = output_wealth_efa$loadings[,]
-f = x %*% l 
-
-temp_pca_df[,c("fa_pe")] <- f
 
 
-r2 = paste0(
-  # sprintf(abs(cor.test(temp_pca_df$fa_pe,temp_pca_df$pcall)$estimate),fmt = "%0.2f")
-  sprintf(abs(cor(temp_pca_df$fa_pe,temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
+
+output_wealth_efa2$scores <- psych::factor.scores(x,output_wealth_efa2)   #find the scores from the response data set with the p3 pca solution
+# psych::biplot.psych(psych_pca)
+r2a <- paste0(
+  sprintf(abs(cor(output_wealth_efa2$scores$scores[,1],temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
 )
 
 
@@ -109,10 +107,10 @@ r2 = paste0(
 rotation_method = "varimax"
 fm_method = "minres"
 nfactors = 1
-output_wealth_efa <- psych::fa(mixedcor_mat,
+output_wealth_efa3 <- psych::fa(mixedcor_mat,
                                n.obs = nrow(temp_pca_df),
                                nfactors = nfactors,fm=fm_method,rotate=rotation_method)
-l = output_wealth_efa$loadings[,]
+l = output_wealth_efa3$loadings[,]
 f = x %*% l 
 
 temp_pca_df[,c("fa_pc")] <- f
@@ -123,10 +121,10 @@ r3 = paste0(
   sprintf(abs(cor(temp_pca_df$fa_pc,temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
 )
 
-output_wealth_efa$scores <- psych::factor.scores(x,output_wealth_efa)   #find the scores from the response data set with the p3 pca solution
+output_wealth_efa3$scores <- psych::factor.scores(x,output_wealth_efa3)   #find the scores from the response data set with the p3 pca solution
 # psych::biplot.psych(psych_pca)
 r3a <- paste0(
-  sprintf(abs(cor(output_wealth_efa$scores$scores[,1],temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
+  sprintf(abs(cor(output_wealth_efa3$scores$scores[,1],temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
 )
 
 
