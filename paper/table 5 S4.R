@@ -121,7 +121,7 @@ r3 = paste0(
   sprintf(abs(cor(temp_pca_df$fa_pc,temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
 )
 
-output_wealth_efa3$scores <- psych::factor.scores(x,output_wealth_efa3)   #find the scores from the response data set with the p3 pca solution
+output_wealth_efa3$scores <- psych::factor.scores(x,output_wealth_efa3,method = "components")   #find the scores from the response data set with the p3 pca solution
 # psych::biplot.psych(psych_pca)
 r3a <- paste0(
   sprintf(abs(cor(output_wealth_efa3$scores$scores[,1],temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
