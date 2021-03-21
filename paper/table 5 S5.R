@@ -114,7 +114,7 @@ f = x %*% l
 indicator_df[,c("ord_pca", paste0("ord_pca_",c(2,3)))] <- f[,1:3]
 
 psych_pca <- psych::principal(r = ordinal_cor_mat, nfactors = 3, rotate = "none") # works if you actually give it the matrix
-psych_pca$scores <- psych::factor.scores(x,psych_pca)   
+psych_pca$scores <- psych::factor.scores(x,psych_pca,method = "components")   
 # psych::biplot.psych(psych_pca)
 
 # Factor Analysis
@@ -129,7 +129,7 @@ f = x %*% l
 
 indicator_df[,c("ord_fa")] <- f
 
-ordinal_efa$scores <- psych::factor.scores(x,ordinal_efa)   
+ordinal_efa$scores <- psych::factor.scores(x,ordinal_efa,method = "components")   
 # psych::biplot.psych(psych_pca)
 
 

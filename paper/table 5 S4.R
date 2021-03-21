@@ -71,7 +71,7 @@ r1 = paste0(
 )
 
 psych_pca <- psych::principal(r = mixedcor_mat, nfactors = 3, rotate = "none") # works if you actually give it the matrix
-psych_pca$scores <- psych::factor.scores(x,psych_pca)   #find the scores from the response data set with the p3 pca solution
+psych_pca$scores <- psych::factor.scores(x,psych_pca,method = "components")   #find the scores from the response data set with the p3 pca solution
 # psych::biplot.psych(psych_pca)
 r1a <- paste0(
   sprintf(abs(cor(psych_pca$scores$scores[,1],temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
@@ -95,7 +95,7 @@ output_wealth_efa2 <- psych::fa(x,
 
 
 
-output_wealth_efa2$scores <- psych::factor.scores(x,output_wealth_efa2)   #find the scores from the response data set with the p3 pca solution
+output_wealth_efa2$scores <- psych::factor.scores(x,output_wealth_efa2,method = "components")   #find the scores from the response data set with the p3 pca solution
 # psych::biplot.psych(psych_pca)
 r2a <- paste0(
   sprintf(abs(cor(output_wealth_efa2$scores$scores[,1],temp_pca_df$pcall,method = "spearman")),fmt = "%0.2f")
